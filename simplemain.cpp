@@ -1,80 +1,111 @@
 #include<iostream>
 #include<string>
 
-using namespace std;//using this so if i get bored i won't write std::cin or std::cout :>
-
+using namespace std;
 
 int main(){
-    //hello this is a simple game of flames using simple mechaninsm
-    std::string na1;
-    std::string na2;
-    std::cout<<"Enter your name\n";
-    std::getline(cin, na1);
-    std::cout<<"Enter your partner name\n";
-    std::getline(cin, na2);
+    string na1;
+    string na2;
 
-    //now i converted the string to uppercase for no reasons
+    cout<<"Enter your name\n";
+    getline(cin, na1);
+    cout<<"Enter your partner name\n";
+    getline(cin, na2);
+
+    // uppercase conversion
     for (int i = 0; i < na1.length(); i++) {
         if (na1[i] >= 'a' && na1[i] <= 'z') {
             na1[i] = na1[i] - 32;
         }
-    }//uppercase conversion
+    }
     for (int i = 0; i < na2.length(); i++) {
         if (na2[i] >= 'a' && na2[i] <= 'z') {
             na2[i] = na2[i] - 32;
         }
-    }//uppercase conversion
-    int count = na1.length() + na2.length();//total length of two strings
+    }
+
+    int count = na1.length() + na2.length();
     int c1{};
 
-    bool used2[100] = {0}; // track used chars in na2
+    bool used2[100] = {0};
 
+    // remove common characters
     for (int i = 0; na1[i] != '\0'; i++) {
         for (int j = 0; na2[j] != '\0'; j++) {
             if (na1[i] == na2[j] && !used2[j]) {
                 used2[j] = true;
-                c1 += 2; // both characters removed
+                c1 += 2;
                 break;
             }
         }
-    }//function for common
-    
-    int c2 = count-c1;//common out
+    }
+
+    int c2 = count - c1;
+
+    char frnd[] = "flames";
+    int size = 6;
+
+    int cop = c2 % 6;
+    if (cop == 0) cop = 6;
+
+    int idx = 0;
+    int removed = 0;
+
+    // your "mark as x" logic but FIXED
+    while (removed < 5) { // remove until 1 left
+        int step = 0;
+
+        while (step < cop) {
+            if (frnd[idx] != 'x') {
+                step++;
+            }
+            if (step == cop) break;
+
+            idx = (idx + 1) % 6;
+        }
+
+        // mark as removed
+        frnd[idx] = 'x';
+        removed++;
+
+        // move to next valid position
+        while (frnd[idx] == 'x') {
+            idx = (idx + 1) % 6;
+        }
+    }
+
     char result;
-    char copy[6];
 
-    char frnd[] = "flames"; //so this is the string which i will use to calculate relations
+    // find the one not 'x'
+    for (int i = 0; i < 6; i++) {
+        if (frnd[i] != 'x') {
+            result = frnd[i];
+        }
+    }
 
-
-
-    result = frnd[0];
     switch (result) {
         case 'f':
-            std::cout<<"You both are friends🫂.";
+            cout<<"You both are friends🫂.";
             break;
         case 'l':
-            std::cout<<"You both are Lovers😘.";
+            cout<<"You both are Lovers😘.";
             break;
         case 'a':
-            std::cout<<"You both are Affectionate to eachother🥹.";
+            cout<<"You both are Affectionate to eachother🥹.";
             break;
         case 'm':
-            std::cout<<"you both are married💍.";
+            cout<<"you both are married💍.";
             break;
         case 'e':
-            std::cout<<"you both are enemies👎.";
+            cout<<"you both are enemies👎.";
             break;
         case 's':
-            std::cout<<"you both are siblings👥.";
+            cout<<"you both are siblings👥.";
             break;
         default:
-            std::cout<<"why code didn't run😵.";
+            cout<<"why code didn't run😵.";
             break;
-    
     }
 
     return 0;
-
-    
-
 }
